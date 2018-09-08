@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/coinIcon"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_centerVertical="true"
+    android:src="@color/colorPrimaryDark"
+    android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/coinName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/coinIcon"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:text="BitCOin"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/coinPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="$2199"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/coinChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:text="-0.24%"
+        android:textStyle="bold"/>
+
+
+</RelativeLayout>
