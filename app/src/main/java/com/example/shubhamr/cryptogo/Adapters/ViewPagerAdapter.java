@@ -27,11 +27,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position)
         {
-            case 1:
+            case 0:
                 fragment = new CoinFragment();
                 break;
 
-            case 2:
+            case 1:
                 fragment = new CompareFragment();
                 break;
         }

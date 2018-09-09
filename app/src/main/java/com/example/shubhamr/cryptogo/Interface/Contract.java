@@ -46,9 +46,9 @@ public class Contract {
     //----------------------------> MODEL
 
 
-    public interface CryptonatorAPI{
+    public interface CryptoCompareAPI {
 
-        void getCoinIndex();
+        void getCoinIndex(OnFinishedCoinIndex listener);
 
     }
 

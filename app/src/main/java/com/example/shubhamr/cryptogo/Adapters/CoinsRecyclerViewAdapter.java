@@ -21,9 +21,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecyclerViewAdapter.CoinViewHolder>{
 
     private List<Coin> coinList;
+    private String BASE_URL = "https://www.cryptocompare.com";
     private ClickListenerInterface clickListeners = null;
 
-    public CoinsRecyclerViewAdapter(List<Coin> newsList) {
+    public CoinsRecyclerViewAdapter(List<Coin> coinList) {
         this.coinList=coinList;
     }
 
@@ -70,10 +71,8 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
         Coin coin = coinList.get(position);
 
         //Setting detail in view items
-        Picasso.get().load(coin.getIcon()).into(holder.coinIcon);
+        Picasso.get().load(BASE_URL+coin.getIcon()).into(holder.coinIcon);
         holder.coinName.setText(coin.getName());
-        holder.coinPrice.setText(coin.getPrice());
-        holder.coinChange.setText(coin.getChangePrice());
 
     }
 

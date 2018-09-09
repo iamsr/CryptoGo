@@ -6,6 +6,31 @@
     tools:context=".Views.Fragments.CoinFragment">
 
 
+    <ProgressBar
+        android:id="@+id/coinProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/error_text"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/coinRetryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/errorText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/retry"
+        android:visibility="gone"/>
+
+
     <FrameLayout
         android:id="@+id/chartLayout"
         android:layout_width="match_parent"
@@ -20,6 +45,8 @@
         android:layout_below="@id/chartLayout">
 
     </android.support.v7.widget.RecyclerView>
+
+
 
 
 
