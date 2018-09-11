@@ -20,6 +20,7 @@ public class CoinFragmentPresenterImpl implements Contract.CoinFragmentPresenter
 
 
 
+   // Pass Coin Index retrieving work to model
     @Override
     public void getCoin() {
 
@@ -27,6 +28,17 @@ public class CoinFragmentPresenterImpl implements Contract.CoinFragmentPresenter
        cryptoCompareAPI.getCoinIndex(this);
     }
 
+
+
+
+
+
+
+
+
+
+
+    // When Model finish task ofcoin index retrieving
     @Override
     public void onFinishedCoinList(List<Coin> list) {
           coinFragmentView.hideProgressBar();

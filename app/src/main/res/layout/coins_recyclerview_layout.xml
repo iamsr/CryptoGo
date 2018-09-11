@@ -17,19 +17,11 @@
         android:id="@+id/coinName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/coinIcon"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="20dp"
+        android:layout_centerInParent="true"
         android:text="BitCOin"
         android:textSize="20sp"/>
 
-    <TextView
-        android:id="@+id/coinPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="$2199"
-        android:textSize="18sp"/>
+
 
     <TextView
         android:id="@+id/coinChange"

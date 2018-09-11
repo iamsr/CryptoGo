@@ -5,4 +5,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_text">Network Connection Error</string>
     <string name="retry">Retry</string>
+    <string name="percent">%</string>
 </resources>

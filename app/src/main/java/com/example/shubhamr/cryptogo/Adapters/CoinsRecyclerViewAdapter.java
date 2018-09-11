@@ -32,7 +32,6 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
 
      public  @BindView(R.id.coinIcon) CircleImageView coinIcon;
         @BindView(R.id.coinName) TextView coinName;
-        @BindView(R.id.coinPrice) TextView coinPrice;
         @BindView(R.id.coinChange) TextView coinChange;
 
         public CoinViewHolder(View view){
@@ -85,6 +84,9 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
     public void setClickListeners(ClickListenerInterface clickListeners) {
         this.clickListeners = clickListeners;
     }
+
+
+    public List<Coin> getCoinList(){return coinList;}
 
 
 }

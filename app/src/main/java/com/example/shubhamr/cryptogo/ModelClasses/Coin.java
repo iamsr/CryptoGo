@@ -14,14 +14,18 @@ public class Coin {
     @SerializedName("Symbol")
     private String symbol;
 
+    @SerializedName("SortOrder")
+    private String ranking;
+
     public Coin(){ }
 
 
 
-    public Coin(String name,String icon,String symbol){
+    public Coin(String name,String icon,String symbol,String ranking){
         this.name=name;
         this.icon=icon;
         this.symbol = symbol;
+        this.ranking=ranking;
     }
 
 
@@ -39,6 +43,9 @@ public class Coin {
         return name;
     }
 
+    public String getRanking() {
+        return ranking;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -52,4 +59,9 @@ public class Coin {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
+    public void setRanking(String ranking) {
+        this.ranking = ranking;
+    }
+
 }

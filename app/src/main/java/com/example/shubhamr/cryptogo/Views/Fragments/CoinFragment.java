@@ -3,6 +3,7 @@ package com.example.shubhamr.cryptogo.Views.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
 
         // Presenter Instance (For communication with models)
 
-        coinFragmentPresenter = new CoinFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));
+       coinFragmentPresenter = new CoinFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));
        coinFragmentPresenter.getCoin();
 
         return view;
@@ -63,9 +64,15 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
 
 
 
-
+    // When coin selected from list
     @Override
     public void itemClicked(View view, int position) {
+
+        Coin coin = coinsRecyclerViewAdapter.getCoinList().get(position);
+
+        //Change Chart
+        setChartFragment(coin);
+
 
     }
 
@@ -88,6 +95,8 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
     retryButton.setVisibility(View.VISIBLE);
     }
 
+
+    // Update Recycler View for Coin list
     @Override
     public void updateCoinRecyclerView(List<Coin> coinList) {
 
@@ -99,11 +108,24 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
     }
 
 
+    // Retry Button
     @OnClick(R.id.errorText)
     public void onRetry(){
         errorText.setVisibility(View.GONE);
         retryButton.setVisibility(View.GONE);
         coinFragmentPresenter.getCoin();
+    }
+
+
+    // Set chart in the activity
+    public void setChartFragment(Coin coin){
+
+        // Replace chart detail with current selected coin detail
+        Fragment fragment = new CoinDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("SYMBOL",coin.getSymbol());
+        fragment.setArguments(bundle);
+         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chartLayout,fragment).commit();
     }
 
 }
