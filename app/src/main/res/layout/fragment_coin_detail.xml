@@ -5,13 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffff">
 
+
+    <Button
+        android:id="@+id/coinName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="BitCoin"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:elevation="5dp"
+        android:clickable="false"
+        android:layout_margin="3dp"
+        android:background="@drawable/line_gradient"
+        />
+
     <android.support.v7.widget.CardView
         android:id="@+id/coinDataLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="75dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
-        android:elevation="5dp">
+        android:elevation="10dp"
+        android:layout_below="@id/coinName">
 
 
     <RelativeLayout
@@ -25,8 +41,7 @@
             android:text="Market Cap"
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/marketCapValue"
@@ -45,8 +60,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
             android:layout_marginStart="5dp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/volumeValue"
@@ -66,16 +80,14 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/highValue"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/highValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"/>
 
 
@@ -88,24 +100,17 @@
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/lowValue"
             android:layout_alignParentBottom="true"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/lowValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/high"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="5dp"/>
 
-        <TextView
-            android:id="@+id/changePercent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textStyle="bold"/>
 
 
 
@@ -124,11 +129,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/coinDataLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:textSize="24sp"
-        android:text="12345678"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/white_rounded"
+        android:elevation="5dp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
         android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/changePercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coinDataLayout"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/white_rounded"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="2dp"
+        android:padding="10dp"
+        android:elevation="5dp"
+        android:textStyle="bold"/>
+
+
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
