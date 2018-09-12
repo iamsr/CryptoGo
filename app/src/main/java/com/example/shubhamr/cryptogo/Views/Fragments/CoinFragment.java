@@ -1,6 +1,7 @@
 package com.example.shubhamr.cryptogo.Views.Fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,6 +22,8 @@ import com.example.shubhamr.cryptogo.ModelClasses.Coin;
 import com.example.shubhamr.cryptogo.Models.CryptoCompareAPIImpl;
 import com.example.shubhamr.cryptogo.Presenters.CoinFragmentPresenterImpl;
 import com.example.shubhamr.cryptogo.R;
+import com.steelkiwi.library.SlidingSquareLoaderView;
+import com.steelkiwi.library.view.SquareView;
 
 import java.util.List;
 
@@ -31,13 +35,14 @@ import butterknife.OnClick;
 public class CoinFragment extends Fragment implements ClickListenerInterface,Contract.CoinFragmentView {
 
     @BindView(R.id.coinsRecyclerView)RecyclerView coinRecyclerView;
-    @BindView(R.id.coinProgressBar) ProgressBar progressBar;
-    @BindView(R.id.errorText)TextView errorText;
+    @BindView(R.id.coinProgressView) ProgressBar progressBar;
+    @BindView(R.id.errorIcon)ImageView errorIcon;
     @BindView(R.id.coinRetryButton)Button retryButton;
 
 
     private CoinsRecyclerViewAdapter coinsRecyclerViewAdapter;
     private Contract.CoinFragmentPresenter coinFragmentPresenter;
+    private View LAST_VIEW;
 
 
     public CoinFragment() {
@@ -68,7 +73,15 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
     @Override
     public void itemClicked(View view, int position) {
 
+        if(LAST_VIEW!=null){
+            LAST_VIEW.setBackgroundColor(Color.parseColor("#ffffff"));
+            LAST_VIEW.setElevation(0);
+        }
         Coin coin = coinsRecyclerViewAdapter.getCoinList().get(position);
+        coinsRecyclerViewAdapter.setLAST_ITEM_SELECTED(position);
+        view.setElevation(10);
+        view.setBackgroundColor(Color.parseColor("#fafafa"));
+        LAST_VIEW=view;
 
         //Change Chart
         setChartFragment(coin);
@@ -79,6 +92,7 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
     @Override
     public void showProgressBar() {
 
+
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -87,11 +101,12 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
 
         progressBar.setVisibility(View.GONE);
 
+
     }
 
     @Override
     public void showError() {
-    errorText.setVisibility(View.VISIBLE);
+    errorIcon.setVisibility(View.VISIBLE);
     retryButton.setVisibility(View.VISIBLE);
     }
 
@@ -105,13 +120,17 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
         coinsRecyclerViewAdapter  =new CoinsRecyclerViewAdapter(coinList);
         coinsRecyclerViewAdapter.setClickListeners(this);
         coinRecyclerView.setAdapter(coinsRecyclerViewAdapter);
+
+        //Set first coin chart
+        if(coinList!=null){
+        setChartFragment(coinList.get(0));}
     }
 
 
     // Retry Button
-    @OnClick(R.id.errorText)
+    @OnClick(R.id.coinRetryButton)
     public void onRetry(){
-        errorText.setVisibility(View.GONE);
+        errorIcon.setVisibility(View.GONE);
         retryButton.setVisibility(View.GONE);
         coinFragmentPresenter.getCoin();
     }

@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.Fragments.CoinFragment">
 
 
     <ProgressBar
-        android:id="@+id/coinProgressBar"
+        android:id="@+id/coinProgressView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:indeterminate="true"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/errorText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/error_text"
-        android:visibility="gone"/>
 
     <Button
         android:id="@+id/coinRetryButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/errorText"
+        android:layout_below="@id/errorIcon"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         android:text="@string/retry"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:background="@drawable/line_gradient"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/errorIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_low"/>
 
 
     <FrameLayout
         android:id="@+id/chartLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+        app:layout_collapseMode="parallax">
 
     </FrameLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/coinsRecyclerView"

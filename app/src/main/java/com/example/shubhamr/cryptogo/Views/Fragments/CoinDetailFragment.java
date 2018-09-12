@@ -15,6 +15,7 @@ import com.example.shubhamr.cryptogo.ModelClasses.CoinDetail;
 import com.example.shubhamr.cryptogo.Models.CryptoCompareAPIImpl;
 import com.example.shubhamr.cryptogo.Presenters.CoinDetailFragmentPresenterImpl;
 import com.example.shubhamr.cryptogo.R;
+import com.example.shubhamr.cryptogo.Views.Activities.MainActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -150,7 +151,7 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
     @Override
     public void showError() {
 
-        Toast.makeText(getContext(),"CHARTFAILED",Toast.LENGTH_SHORT).show();
+
     }
 
 

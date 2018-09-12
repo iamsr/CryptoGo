@@ -1,5 +1,6 @@
 package com.example.shubhamr.cryptogo.Adapters;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
     private List<Coin> coinList;
     private String BASE_URL = "https://www.cryptocompare.com";
     private ClickListenerInterface clickListeners = null;
+    private int LAST_ITEM_SELECTED=-1;
 
     public CoinsRecyclerViewAdapter(List<Coin> coinList) {
         this.coinList=coinList;
@@ -69,6 +71,17 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
 
         Coin coin = coinList.get(position);
 
+
+
+        if(LAST_ITEM_SELECTED==position){
+            holder.itemView.setElevation(10);
+            holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
+        }
+        else{
+            holder.itemView.setElevation(0);
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
+
         //Setting detail in view items
         Picasso.get().load(BASE_URL+coin.getIcon()).into(holder.coinIcon);
         holder.coinName.setText(coin.getName());
@@ -88,5 +101,11 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
 
     public List<Coin> getCoinList(){return coinList;}
 
+    public int getLAST_ITEM_SELECTED() {
+        return LAST_ITEM_SELECTED;
+    }
 
+    public void setLAST_ITEM_SELECTED(int LAST_ITEM_SELECTED) {
+        this.LAST_ITEM_SELECTED = LAST_ITEM_SELECTED;
+    }
 }
