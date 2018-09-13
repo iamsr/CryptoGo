@@ -28,7 +28,15 @@ public interface ApiInterface {
     Call<JsonObject> getCoinData(@Query("fsyms") String symbol,@Query("tsyms")String currency);
 
     @GET("histoday")
-    Call<JsonObject> getCoinHistory(@Query("fsym") String symbol,@Query("tsym")String currency,@Query("limit")String limit);
+    Call<JsonObject> getCoinWeeklyHistory(@Query("fsym") String symbol, @Query("tsym")String currency, @Query("limit")String limit);
+
+
+    @GET("histohour")
+    Call<JsonObject> getCoinHourlyHistory(@Query("fsym") String symbol,@Query("tsym")String currency,@Query("limit")String limit);
+
+    @GET("histominute")
+    Call<JsonObject> getCoinMinuteHistory(@Query("fsym") String symbol,@Query("tsym")String currency,@Query("limit")String limit);
+
 
 
 

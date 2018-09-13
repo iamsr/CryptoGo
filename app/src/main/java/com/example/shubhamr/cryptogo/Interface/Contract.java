@@ -35,6 +35,25 @@ public class Contract {
     }
 
 
+    public interface MultiChartFragmentView{
+
+
+        void setHistoryChart(List<String> coin1List,List<String> coin2List);
+
+        void showError();
+
+    }
+
+
+    public interface CompareFragmentView extends BaseView{
+
+        void setSpinner(List<String> coinList);
+        void setCoinList(List<Coin> coinList );
+        void setCoinsDetail(CoinDetail coin1,CoinDetail coin2);
+
+    }
+
+
 
     //-------------------------------------
 
@@ -54,6 +73,31 @@ public class Contract {
 
         void getCoinDetail(String symbol);
 
+
+    }
+
+
+
+    public interface MultiChartFragmentPresenter{
+
+        void getHistory(String coin1,String coin2,String type);
+
+
+
+
+    }
+
+
+    public interface CompareFragmentPresenter{
+
+        // Retrieving full coin list
+        void getCoinList();
+
+        // Retrieving only name for spinners
+        void getSpinnerList(List<Coin> coinList);
+
+        // Get both coin detail
+        void getBothCoinDetail(Coin coin1,Coin coin2);
 
     }
 
@@ -88,6 +132,21 @@ public class Contract {
         void getCoinHistory7Day(OnFinishedCoinData listener,CoinDetail coinDetail,String symbol);
 
 
+        /*
+
+           These are methods for comparing fragment
+           Each method process two coins history and details
+
+         */
+
+        void getTwoCoinHistory(OnFinishedCoinHistory listener,String coin,String type,String coinNum);
+
+        void getCoinNames(OnFinishedCoinCompare listener);
+
+        void getBothCoinDetails(OnFinishedCoinCompare listener,Coin coin,int coinNum);
+
+
+
     }
 
 
@@ -104,6 +163,20 @@ public class Contract {
 
     public interface OnFinishedCoinData{
         void onFinishedCoinDetail(CoinDetail coinDetail);
+    }
+
+
+    public interface OnFinishedCoinHistory{
+
+        void onFinishedWeekly(List<String> coinHistory,String coinNum);
+
+    }
+
+    public interface OnFinishedCoinCompare{
+
+        void onFinishedList(List<Coin> coinList);
+        void onFinishedCoinDetails(CoinDetail coinDetail,int coinNum);
+
     }
 
 

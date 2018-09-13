@@ -90,10 +90,15 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         lowValue.setText(coinDetail.getLow());
         changeValue.setText(coinDetail.getChangePercent()+"%");
 
+
+
+
+
         //Set Chart
 
 
 
+        // Retrieving history list of coin from its object
         List<String> historyList = coinDetail.getHistoryList();
 
         // Making List of type Entry(Chart class) which require to parameter(x,y)

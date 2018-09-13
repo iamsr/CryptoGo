@@ -25,6 +25,19 @@ public class CoinDetail {
     @SerializedName("VOLUME24HOUR")
     private String volume24Hour;
 
+
+    @SerializedName("SUPPLY")
+    private String supply;
+
+    @SerializedName("OPENDAY")
+    private String openDay;
+
+    @SerializedName("FROMSYMBOL")
+    private String symbol;
+
+
+
+
     private List<String> historyList;
 
 
@@ -67,6 +80,18 @@ public class CoinDetail {
         return volume24Hour;
     }
 
+    public String getOpenDay() {
+        return openDay;
+    }
+
+    public String getSupply() {
+        return supply;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
     public void setPrice(String price) {
         this.price = price;
     }
@@ -93,5 +118,17 @@ public class CoinDetail {
 
     public void setHistoryList(List<String> historyList) {
         this.historyList = historyList;
+    }
+
+    public void setOpenDay(String openDay) {
+        this.openDay = openDay;
+    }
+
+    public void setSupply(String supply) {
+        this.supply = supply;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

@@ -6,4 +6,12 @@
     <string name="error_text">Network Connection Error</string>
     <string name="retry">Retry</string>
     <string name="percent">%</string>
+    <string name="price">Price</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="weekly">Weekly</string>
+    <string name="hourly">Hourly</string>
+    <string name="minutes">Minutes</string>
+    <string name="open">Open</string>
+    <string name="volume24h">Volume24h</string>
 </resources>
