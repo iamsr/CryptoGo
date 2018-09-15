@@ -81,13 +81,16 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         if(coinDetail.getChangePercent().charAt(0)=='-'){
             changeValue.setTextColor(Color.parseColor("#f44336"));
             changeValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_down,0,0,0);
-            changeValue.setCompoundDrawablePadding(5);
+
 
         }
         else{
             changeValue.setTextColor(Color.parseColor("#64dd17"));
             changeValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_up,0,0,0);
         }
+
+       // pading for low higih icon
+        changeValue.setCompoundDrawablePadding(8);
 
 
         //Set text in respected field

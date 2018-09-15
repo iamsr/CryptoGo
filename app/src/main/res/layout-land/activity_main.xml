@@ -10,6 +10,8 @@
       android:layout_height="?attr/actionBarSize"
       app:tabBackground="@drawable/white_rounded"
       app:tabIndicatorColor="#c9aca9"
+      app:tabMaxWidth="0dp"
+      app:tabGravity="fill"
       >
 
       <android.support.design.widget.TabItem

@@ -72,17 +72,10 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
 
 
 
-        if(LAST_ITEM_SELECTED==position){
-            holder.itemView.setElevation(10);
-            holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
-        }
-        else{
-            holder.itemView.setElevation(0);
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-        }
+
 
         //Setting detail in view items
-        Picasso.get().load(BASE_URL+coin.getIcon()).into(holder.coinIcon);
+        Picasso.get().load(BASE_URL+coin.getIcon()).fit().into(holder.coinIcon);
         holder.coinName.setText(coin.getName());
 
     }

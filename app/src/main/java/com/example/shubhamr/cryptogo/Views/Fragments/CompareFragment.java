@@ -1,6 +1,7 @@
 package com.example.shubhamr.cryptogo.Views.Fragments;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -71,6 +72,10 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     private List<Coin> coinList;
     private int spinner1Pos=-1,spinner2Pos=-1;
     private CompareViewPagerAdapter compareViewPagerAdapter;
+    public Context context;
+
+   // So we don't have to mak network calls every time configuration changes
+    List<String> globalNameList;
 
 
     public CompareFragment() {
@@ -84,16 +89,28 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_compare, container, false);
         ButterKnife.bind(this,view);
+        setRetainInstance(true);
+        if(context==null){
+        context = getActivity();}
 
        //Set Up View Pager
         setViewPager();
 
+
         // Presenter
         compareFragmentPresenter = new CompareFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));
 
-        // Get data for spinner
-        compareFragmentPresenter.getCoinList();
 
+        // If configuration changes pass ol data if present
+        if(globalNameList!=null){
+            setSpinner(globalNameList);
+        }
+
+
+        // Get data for spinner (Fragment created first time)
+        else {
+            compareFragmentPresenter.getCoinList();
+        }
         return view;
     }
 
@@ -134,33 +151,33 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         // Checks which spinner item selected and set global position variable accordingly
+          if(parent.getChildAt(0)!=null) {
+              ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+          }
 
-        ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+              if (parent.getId() == R.id.spinner1) {
+                  spinner1Pos = position;
+              } else {
+                  spinner2Pos = position;
+              }
 
-        if(parent.getId()==R.id.spinner1){
-            spinner1Pos = position;
-        }
-        else{
-           spinner2Pos = position;
-        }
+              // Runs when there is something selected in both spinners (If one is still not selected nothing will happen)
+              if (spinner1Pos != -1 && spinner2Pos != -1) {
 
-        // Runs when there is something selected in both spinners (If one is still not selected nothing will happen)
-        if(spinner1Pos!=-1&&spinner2Pos!=-1){
+                  // Get both selected coin details
+                  compareFragmentPresenter.getBothCoinDetail(coinList.get(spinner1Pos), coinList.get(spinner2Pos));
+                  //Calling view pager adapter for chart changes
+                  Bundle bundle = new Bundle();
+                  bundle.putString("COIN1", coinList.get(spinner1Pos).getSymbol());
+                  bundle.putString("COIN2", coinList.get(spinner2Pos).getSymbol());
 
-            // Get both selected coin details
-           compareFragmentPresenter.getBothCoinDetail(coinList.get(spinner1Pos),coinList.get(spinner2Pos));
-            //Calling view pager adapter for chart changes
-            Bundle bundle = new Bundle();
-            bundle.putString("COIN1", coinList.get(spinner1Pos).getSymbol());
-            bundle.putString("COIN2",coinList.get(spinner2Pos).getSymbol());
-
-            // Set new data for fragment and notify view pager about change
-            compareViewPagerAdapter.setBundle(bundle);
-            compareViewPagerAdapter.notifyDataSetChanged();
-
-        }
+                  // Set new data for fragment and notify view pager about change
+                  compareViewPagerAdapter.setBundle(bundle);
+                  compareViewPagerAdapter.notifyDataSetChanged();
 
 
+
+          }
 
     }
 
@@ -179,7 +196,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
        spinnerCoin2.setOnItemSelectedListener(this);
 
     // Adapter for spinner
-       ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, nameList);
+       ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, nameList);
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

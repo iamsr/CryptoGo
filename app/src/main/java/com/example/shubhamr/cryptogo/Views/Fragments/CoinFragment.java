@@ -3,6 +3,7 @@ package com.example.shubhamr.cryptogo.Views.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,20 +32,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
+
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 
 public class CoinFragment extends Fragment implements ClickListenerInterface,Contract.CoinFragmentView {
 
     @BindView(R.id.coinsRecyclerView)RecyclerView coinRecyclerView;
     @BindView(R.id.coinProgressView) ProgressBar progressBar;
-    @BindView(R.id.errorIcon)ImageView errorIcon;
+    @BindView(R.id.errorIcons)ImageView errorIcon;
     @BindView(R.id.coinRetryButton)Button retryButton;
-    @BindView(R.id.coinScroll)ScrollView scrollView;
+    @Nullable @BindView(R.id.coinScroll)ScrollView scrollView;
 
 
     private CoinsRecyclerViewAdapter coinsRecyclerViewAdapter;
     private Contract.CoinFragmentPresenter coinFragmentPresenter;
     private View LAST_VIEW;
+
+    // Whnen orientation change so we don't have to do network calls every time
+    List<Coin> globalCoinList;
 
 
     public CoinFragment() {
@@ -58,13 +65,20 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
 
         View view =  inflater.inflate(R.layout.fragment_coin, container, false);
         ButterKnife.bind(this,view);
+        setRetainInstance(true);
 
 
-        // Presenter Instance (For communication with models)
+        // Presnter instance
+        coinFragmentPresenter = new CoinFragmentPresenterImpl(this, new CryptoCompareAPIImpl(getContext()));
 
-       coinFragmentPresenter = new CoinFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));
-       coinFragmentPresenter.getCoin();
 
+        // Set coin list if activity restarted due to configuration changes
+        if(globalCoinList!=null){updateCoinRecyclerView(globalCoinList);}
+
+        // Presenter Instance (For communication with models) (Fragment created for first time)
+       else {
+            coinFragmentPresenter.getCoin();
+        }
         return view;
     }
 
@@ -86,7 +100,10 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
         LAST_VIEW=view;
 
     //1.    coinRecyclerView.getLayoutManager().scrollToPosition(0);
-        scrollView.smoothScrollTo(0,scrollView.getTop());
+        // not work in landscape mode
+
+        if(getContext().getResources().getConfiguration().orientation!=ORIENTATION_LANDSCAPE){
+        scrollView.smoothScrollTo(0,scrollView.getTop());}
 
         //Change Chart
         setChartFragment(coin);
@@ -125,6 +142,7 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
         coinsRecyclerViewAdapter  =new CoinsRecyclerViewAdapter(coinList);
         coinsRecyclerViewAdapter.setClickListeners(this);
         coinRecyclerView.setAdapter(coinsRecyclerViewAdapter);
+        globalCoinList = coinList;
 
         //Set first coin chart
         if(coinList!=null){

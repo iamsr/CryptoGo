@@ -48,6 +48,7 @@ public class MultiChartFragment extends Fragment implements Contract.MultiChartF
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_multi_chart, container, false);
         ButterKnife.bind(this,view);
+        setRetainInstance(true);
 
         // Setting presenter
         multiChartFragmentPresenter = new MultiChartFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));

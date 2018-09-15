@@ -136,7 +136,7 @@
         android:elevation="5dp"
         android:padding="10dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"/>
 
 
@@ -148,7 +148,7 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/white_rounded"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="2dp"
         android:padding="10dp"
@@ -160,7 +160,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/price"
         android:layout_marginTop="5dp"/>
 
