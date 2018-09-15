@@ -7,7 +7,7 @@
             android:angle="0"
             android:type="linear"
             android:startColor="#fba562"
-            android:endColor="#fe5e2a"
+            android:endColor="#f86053"
             />
 
         <!-- make the button corners rounded-->

@@ -1,6 +1,8 @@
 package com.example.shubhamr.cryptogo.Models;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.UiThread;
 
 import com.example.shubhamr.cryptogo.Interface.ApiInterface;
 import com.example.shubhamr.cryptogo.Interface.Contract;
@@ -55,68 +57,8 @@ public class CryptoCompareAPIImpl implements Contract.CryptoCompareAPI {
             public void onResponse(Call<CoinIndexResponse> call, Response<CoinIndexResponse> response) {
 
 
-                        // Getting Data Json Object which contain another JSON object contains detail of all coins
-                        JsonElement dataElement = response.body().getCoinList();
-
-                        // Converting it to string so we can create JSON Object from it
-                        String jsonResponse = dataElement.toString();
-
-                        // List to store coin index
-                        List<Coin> coinList= new ArrayList<>();
-
-                        try{
-
-                            // Json Object created from string
-                            JSONObject issueObj = new JSONObject(jsonResponse);
-
-                            // Iterator to iterate in whole response object using key
-                            Iterator iterator = issueObj.keys();
-
-                            // Taking only 500 Coin For List
-                            int i=0;
-
-                            // Until there is object inside response
-                            while(iterator.hasNext()&&i<150) {
-
-                                // Getting name of json object
-                                String key = (String) iterator.next();
-
-                                // Retrieving json object using key name retrieved in last step
-                                JSONObject issue = issueObj.getJSONObject(key);
-
-                                // Convert josn object into COIN class object using GSON
-                                Coin model = new Gson().fromJson(issue.toString(), Coin.class);
-
-                                // Adding Coin to coinList
-                                coinList.add(model);
-                                i++;
-
-                            }
-
-                            //Sorting list on the basis of ranking using Collections
-                            Collections.sort(coinList,(Coin c1,Coin c2)->{
-                                int rank1 = Integer.parseInt(c1.getRanking());
-                                int rank2 = Integer.parseInt(c2.getRanking());
-                                return rank1-rank2;
-                            });
-
-                            // Final list in order from top till 100 only
-                            List<Coin> finalList = coinList.subList(0,100);
-
-
-                            // Passing back the retrieved coinList to Presenter
-                             listener.onFinishedCoinList(finalList);
-
-                        }
-                        catch (Exception e){
-                            // Error Found pass null so view can sow error
-                            e.printStackTrace();
-                            listener.onFinishedCoinList(null);
-
-                        }
-
-
-
+                 // doing list retrieving task in async task as it take more time and since ruetrofit run on main thread it can block ui
+                        new longTask(listener,response).execute();
 
                 }
 
@@ -337,99 +279,6 @@ public class CryptoCompareAPIImpl implements Contract.CryptoCompareAPI {
 
 
 
-    //Only names of coins
-
-    @Override
-    public void getCoinNames(Contract.OnFinishedCoinCompare listener) {
-
-        // Calling api method to get response of coin index query
-        Call<CoinIndexResponse> call = apiService.getCoinList();
-
-
-        call.enqueue(new Callback<CoinIndexResponse>() {
-            @Override
-            public void onResponse(Call<CoinIndexResponse> call, Response<CoinIndexResponse> response) {
-
-
-                // Getting Data Json Object which contain another JSON object contains detail of all coins
-                JsonElement dataElement = response.body().getCoinList();
-
-                // Converting it to string so we can create JSON Object from it
-                String jsonResponse = dataElement.toString();
-
-                // List to store coin index
-                List<Coin> coinList= new ArrayList<>();
-
-                try{
-
-                    // Json Object created from string
-                    JSONObject issueObj = new JSONObject(jsonResponse);
-
-                    // Iterator to iterate in whole response object using key
-                    Iterator iterator = issueObj.keys();
-
-                    // Taking only 500 Coin For List
-                    int i=0;
-
-                    // Until there is object inside response
-                    while(iterator.hasNext()&&i<150) {
-
-                        // Getting name of json object
-                        String key = (String) iterator.next();
-
-                        // Retrieving json object using key name retrieved in last step
-                        JSONObject issue = issueObj.getJSONObject(key);
-
-                        // Convert josn object into COIN class object using GSON
-                        Coin model = new Gson().fromJson(issue.toString(), Coin.class);
-
-                        // Adding Coin to coinList
-                        coinList.add(model);
-                        i++;
-
-                    }
-
-                    //Sorting list on the basis of ranking using Collections
-                    Collections.sort(coinList,(Coin c1,Coin c2)->{
-                        int rank1 = Integer.parseInt(c1.getRanking());
-                        int rank2 = Integer.parseInt(c2.getRanking());
-                        return rank1-rank2;
-                    });
-
-                    // Final list in order from top till 100 only
-                    List<Coin> finalList = coinList.subList(0,100);
-
-
-                    // Passing back the retrieved coinList to Presenter
-                    listener.onFinishedList(finalList);
-
-                }
-                catch (Exception e){
-                    // Error Found pass null so view can sow error
-                    e.printStackTrace();
-                    listener.onFinishedList(null);
-
-                }
-
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<CoinIndexResponse> call, Throwable t) {
-                // Pass back null so view can show error on screen
-                t.printStackTrace();
-                listener.onFinishedList(null);
-            }
-        });
-
-
-
-    }
-
-
-
 
     // Get coin details for compare fragment
     @Override
@@ -473,3 +322,112 @@ public class CryptoCompareAPIImpl implements Contract.CryptoCompareAPI {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+// Async task class
+
+ class longTask extends AsyncTask<Void,Void,List<Coin>> {
+
+     private Contract.OnFinishedCoinIndex listener;
+     private   Response<CoinIndexResponse> response;
+
+     public longTask(Contract.OnFinishedCoinIndex listener, Response<CoinIndexResponse> response) {
+         this.listener = listener;
+         this.response=response;
+     }
+
+     @Override
+     protected List<Coin> doInBackground(Void... voids) {
+
+         // Getting Data Json Object which contain another JSON object contains detail of all coins
+         JsonElement dataElement = response.body().getCoinList();
+
+         // Converting it to string so we can create JSON Object from it
+         String jsonResponse = dataElement.toString();
+
+         // List to store coin index
+         List<Coin> coinList= new ArrayList<>();
+
+         try{
+
+             // Json Object created from string
+             JSONObject issueObj = new JSONObject(jsonResponse);
+
+             // Iterator to iterate in whole response object using key
+             Iterator iterator = issueObj.keys();
+
+             // Taking only 200 Coin For List
+             int i =0;
+
+
+             // Until there is object inside response
+             while(iterator.hasNext()&&i<201) {
+
+                 // Getting name of json object
+                 String key = (String) iterator.next();
+
+                 // Retrieving json object using key name retrieved in last step
+                 JSONObject issue = issueObj.getJSONObject(key);
+
+                 // Convert josn object into COIN class object using GSON
+                 Coin model = new Gson().fromJson(issue.toString(), Coin.class);
+
+                 // Adding Coin to coinList
+                 coinList.add(model);
+                i++;
+             }
+
+             //Sorting list on the basis of ranking using Collections
+             Collections.sort(coinList,(Coin c1,Coin c2)->{
+                 int rank1 = Integer.parseInt(c1.getRanking());
+                 int rank2 = Integer.parseInt(c2.getRanking());
+                 return rank1-rank2;
+             });
+
+             // Final list in order from top till 100 only
+             List<Coin> finalList = coinList.subList(0,200);
+
+
+             // Passing back the retrieved coinList to Presenter
+             return finalList;
+
+         }
+         catch (Exception e){
+             // Error Found pass null so view can sow error
+             e.printStackTrace();
+             return null;
+
+         }
+
+
+
+     }
+
+     @Override
+     protected void onPostExecute(List<Coin> finalList) {
+
+         listener.onFinishedCoinList(finalList);
+
+     }
+
+
+ }
+
+
+
+
+
+
+
+
+
+

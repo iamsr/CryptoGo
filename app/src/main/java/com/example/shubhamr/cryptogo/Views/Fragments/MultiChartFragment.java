@@ -121,14 +121,14 @@ public class MultiChartFragment extends Fragment implements Contract.MultiChartF
         // Data set 1
         dataSet1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet1.setValueTextSize(8);
-        dataSet1.setColor(Color.parseColor("#fba562"));
+        dataSet1.setColor(Color.parseColor("#f86053"));
         dataSet1.setCircleColor(Color.parseColor("#fe5e2a"));
 
         // Data set 2
         dataSet2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet2.setValueTextSize(8);
-        dataSet2.setColor(Color.parseColor("#4dd0e1"));
-        dataSet2.setCircleColor(Color.parseColor("#00acc1"));
+        dataSet2.setColor(Color.parseColor("#03a9f4"));
+        dataSet2.setCircleColor(Color.parseColor("#01579b"));
 
 
 
@@ -143,6 +143,10 @@ public class MultiChartFragment extends Fragment implements Contract.MultiChartF
 
         //Setting data into chart
         lineChart.setData(lineData);
+
+
+        //Description
+        lineChart.getDescription().setText("");
 
 
         //Refreshing chart

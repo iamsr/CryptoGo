@@ -7,7 +7,7 @@ import com.example.shubhamr.cryptogo.ModelClasses.CoinDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompareFragmentPresenterImpl implements Contract.CompareFragmentPresenter,Contract.OnFinishedCoinCompare {
+public class CompareFragmentPresenterImpl implements Contract.CompareFragmentPresenter,Contract.OnFinishedCoinCompare,Contract.OnFinishedCoinIndex {
 
     private Contract.CompareFragmentView compareFragmentView;
     private Contract.CryptoCompareAPI cryptoCompareAPI;
@@ -23,7 +23,7 @@ public class CompareFragmentPresenterImpl implements Contract.CompareFragmentPre
     @Override
     public void getCoinList() {
         compareFragmentView.showProgressBar();
-        cryptoCompareAPI.getCoinNames(this);
+        cryptoCompareAPI.getCoinIndex(this);
 
     }
 
@@ -54,7 +54,7 @@ public class CompareFragmentPresenterImpl implements Contract.CompareFragmentPre
 
     // When Retrieving coin info list completed
     @Override
-    public void onFinishedList(List<Coin> coinList) {
+    public void onFinishedCoinList(List<Coin> coinList) {
         compareFragmentView.hideProgressBar();
 
         if(coinList==null){
@@ -73,7 +73,7 @@ public class CompareFragmentPresenterImpl implements Contract.CompareFragmentPre
     @Override
     public void onFinishedCoinDetails(CoinDetail coinDetail, int coinNum) {
 
-        // If error occured show error on screen
+        // If error occurred show error on screen
         if(coinDetail==null){
             compareFragmentView.showError();
         }

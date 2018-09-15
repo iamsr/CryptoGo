@@ -141,8 +141,6 @@ public class Contract {
 
         void getTwoCoinHistory(OnFinishedCoinHistory listener,String coin,String type,String coinNum);
 
-        void getCoinNames(OnFinishedCoinCompare listener);
-
         void getBothCoinDetails(OnFinishedCoinCompare listener,Coin coin,int coinNum);
 
 
@@ -156,7 +154,8 @@ public class Contract {
 
     //----------------------------> Task Finished Listener
 
-    public interface OnFinishedCoinIndex{
+
+    public interface OnFinishedCoinIndex {
         void onFinishedCoinList(List<Coin> list);
     }
 
@@ -174,7 +173,6 @@ public class Contract {
 
     public interface OnFinishedCoinCompare{
 
-        void onFinishedList(List<Coin> coinList);
         void onFinishedCoinDetails(CoinDetail coinDetail,int coinNum);
 
     }

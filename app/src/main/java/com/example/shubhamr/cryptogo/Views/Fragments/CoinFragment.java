@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.shubhamr.cryptogo.Adapters.CoinsRecyclerViewAdapter;
@@ -38,6 +39,7 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
     @BindView(R.id.coinProgressView) ProgressBar progressBar;
     @BindView(R.id.errorIcon)ImageView errorIcon;
     @BindView(R.id.coinRetryButton)Button retryButton;
+    @BindView(R.id.coinScroll)ScrollView scrollView;
 
 
     private CoinsRecyclerViewAdapter coinsRecyclerViewAdapter;
@@ -82,6 +84,9 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
         view.setElevation(10);
         view.setBackgroundColor(Color.parseColor("#fafafa"));
         LAST_VIEW=view;
+
+    //1.    coinRecyclerView.getLayoutManager().scrollToPosition(0);
+        scrollView.smoothScrollTo(0,scrollView.getTop());
 
         //Change Chart
         setChartFragment(coin);
@@ -143,6 +148,7 @@ public class CoinFragment extends Fragment implements ClickListenerInterface,Con
         Fragment fragment = new CoinDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("SYMBOL",coin.getSymbol());
+        bundle.putString("NAME",coin.getName());
         fragment.setArguments(bundle);
          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.chartLayout,fragment).commit();
     }

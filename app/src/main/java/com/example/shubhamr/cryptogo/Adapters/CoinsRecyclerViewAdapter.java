@@ -34,7 +34,6 @@ public class CoinsRecyclerViewAdapter extends RecyclerView.Adapter<CoinsRecycler
 
      public  @BindView(R.id.coinIcon) CircleImageView coinIcon;
         @BindView(R.id.coinName) TextView coinName;
-        @BindView(R.id.coinChange) TextView coinChange;
 
         public CoinViewHolder(View view){
             super(view);

@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +43,10 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     @BindView(R.id.compareProgressBar)ProgressBar progressBar;
     @BindView(R.id.chartViewPager)ViewPager chartViewPager;
     @BindView(R.id.chartTabLayout)TabLayout chartTabLayout;
+    @BindView(R.id.chartCardView)CardView chartCardView;
+    @BindView(R.id.compareDetailContainer)View compareContainer;
+    @BindView(R.id.compareErrorIcon)ImageView errorIcon;
+    @BindView(R.id.compareRetryButton)Button retryButton;
 
     @BindView(R.id.coin1Change)TextView coin1Change;
     @BindView(R.id.coin2Change)TextView coin2Change;
@@ -127,6 +135,8 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
         // Checks which spinner item selected and set global position variable accordingly
 
+        ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+
         if(parent.getId()==R.id.spinner1){
             spinner1Pos = position;
         }
@@ -171,7 +181,10 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     // Adapter for spinner
        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, nameList);
 
-     // Attaching adapter with spinner
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        // Attaching adapter with spinner
        spinnerCoin1.setAdapter(dataAdapter);
        spinnerCoin2.setAdapter(dataAdapter);
 
@@ -183,6 +196,11 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void setCoinList(List<Coin> coinList) {
         this.coinList=coinList;
+
+        // List retrieved from network now showing all views
+        spinnerCoin1.setVisibility(View.VISIBLE);
+        spinnerCoin2.setVisibility(View.VISIBLE);
+
 
         // Retrieving string list for spinner (Taking out names only from original list)
         compareFragmentPresenter.getSpinnerList(coinList);
@@ -196,10 +214,14 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     public void setCoinsDetail(CoinDetail coin1,CoinDetail coin2) {
 
 
+        chartCardView.setVisibility(View.VISIBLE);
+        compareContainer.setVisibility(View.VISIBLE);
+
+
 
         // Change
-        coin1Change.setText(coin1.getChangePercent());
-        coin2Change.setText(coin2.getChangePercent());
+        coin1Change.setText(coin1.getChangePercent()+" %");
+        coin2Change.setText(coin2.getChangePercent()+" %");
 
         // Price
         coin1Price.setText(coin1.getPrice());
@@ -248,5 +270,24 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void showError() {
 
+        // Showing error views
+        errorIcon.setVisibility(View.VISIBLE);
+        retryButton.setVisibility(View.VISIBLE);
+
+        //Hiding all views
+        spinnerCoin1.setVisibility(View.GONE);
+        spinnerCoin2.setVisibility(View.GONE);
+        chartCardView.setVisibility(View.GONE);
+        compareContainer.setVisibility(View.GONE);
+
     }
+
+    @OnClick(R.id.compareRetryButton)
+    public void onRetry(){
+
+        errorIcon.setVisibility(View.GONE);
+        retryButton.setVisibility(View.GONE);
+        compareFragmentPresenter.getCoinList();
+    }
+
 }

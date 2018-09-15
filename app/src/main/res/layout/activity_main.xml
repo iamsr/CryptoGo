@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <android.support.design.widget.TabLayout
       android:id="@+id/tabLayout"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize">
+      android:layout_height="?attr/actionBarSize"
+      app:tabBackground="@drawable/white_rounded"
+      app:tabIndicatorColor="#c9aca9">
 
       <android.support.design.widget.TabItem
           android:id="@+id/currencyTab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="COIN"
+          android:icon="@drawable/coin_icon"
           />
 
       <android.support.design.widget.TabItem
           android:id="@+id/compareTab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Compare"
+          android:icon="@drawable/compare_icon"
           />
 
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,10 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
     @BindView(R.id.lowValue)TextView lowValue;
     @BindView(R.id.changePercent) TextView changeValue;
     @BindView(R.id.chart)LineChart lineChart;
+    @BindView(R.id.coinName)Button coinName;
 
     public Contract.CoinDetailFragmentPresenter coinDetailFragmentPresenter;
-    public String symbol;
+    public String symbol,nameArg;
 
 
     public CoinDetailFragment() {
@@ -56,9 +58,11 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         View view = inflater.inflate(R.layout.fragment_coin_detail, container, false);
         ButterKnife.bind(this,view);
 
-        // Retrieving type of coin
-        symbol = getArguments().getString("SYMBOL");
-
+        if(getArguments()!=null) {
+            // Retrieving type of coin
+            symbol = getArguments().getString("SYMBOL");
+            nameArg = getArguments().getString("NAME");
+        }
         //Presenter
         coinDetailFragmentPresenter= new CoinDetailFragmentPresenterImpl(this,new CryptoCompareAPIImpl(getContext()));
 
@@ -75,10 +79,14 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
 
         // Set change text color accordingly
         if(coinDetail.getChangePercent().charAt(0)=='-'){
-            changeValue.setTextColor(Color.RED);
+            changeValue.setTextColor(Color.parseColor("#f44336"));
+            changeValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_down,0,0,0);
+            changeValue.setCompoundDrawablePadding(5);
+
         }
         else{
-            changeValue.setTextColor(Color.GREEN);
+            changeValue.setTextColor(Color.parseColor("#64dd17"));
+            changeValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sort_up,0,0,0);
         }
 
 
@@ -89,6 +97,7 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         highValue.setText(coinDetail.getHigh());
         lowValue.setText(coinDetail.getLow());
         changeValue.setText(coinDetail.getChangePercent()+"%");
+        coinName.setText(nameArg);
 
 
 
@@ -110,14 +119,14 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         }
 
         // add entries to data set
-        LineDataSet dataSet = new LineDataSet(entries, "");
+        LineDataSet dataSet = new LineDataSet(entries, coinDetail.getSymbol());
 
 
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet.setValueTextSize(8);
         dataSet.setDrawFilled(true);
         dataSet.setFillDrawable(getResources().getDrawable(R.drawable.graph_gradient));
-        dataSet.setColor(Color.parseColor("#fba562"));
+        dataSet.setColor(Color.parseColor("#f86053"));
         dataSet.setCircleColor(Color.parseColor("#fe5e2a"));
 
 
@@ -145,6 +154,8 @@ public class CoinDetailFragment extends Fragment implements Contract.CoinDetailF
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setEnabled(false);
 
+        //Description
+        lineChart.getDescription().setText("");
 
 
         lineChart.invalidate(); // refresh
